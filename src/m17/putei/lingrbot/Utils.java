@@ -1,5 +1,6 @@
 package m17.putei.lingrbot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -14,9 +15,9 @@ public class Utils {
   public static Map<String,String> readKeyValue( String filename ) {
     Map<String,String> kv = null;
     try {
-      List<String> l = IOUtils.readLines(Utils.class.getResourceAsStream("/"+filename), "utf-8");
-      kv = new LinkedHashMap<String,String>(l.size()*4/3+1);
-      for ( String line : l ) {
+      List<String> lines = readLines(filename);
+      kv = new LinkedHashMap<String,String>(lines.size()*4/3+1);
+      for ( String line : lines ) {
         line = line.replaceAll("\\s*#.*", "");
         String[] items = line.split("\\s+");
         if (items.length==2) {
@@ -29,12 +30,12 @@ public class Utils {
     return kv;
   }
   
-  public static String[] readLines( String filename ) {
+  public static String[] readLinesInArray( String filename ) {
     List<String> list = null;
     try {
-      List<String> l = IOUtils.readLines(Utils.class.getResourceAsStream("/"+filename), "utf-8");
-      list = new ArrayList<String>(l.size());
-      for ( String line : l ) {
+      List<String> lines = readLines(filename);
+      list = new ArrayList<String>(lines.size());
+      for ( String line : lines ) {
         if (line.length()>0) list.add(line); 
       }
     } catch (Exception e) {
@@ -43,6 +44,15 @@ public class Utils {
     if (list!=null) {
       return (String[]) list.toArray(new String[list.size()]);
     } else {
+      return null;
+    }
+  }
+  
+  public static List<String> readLines( String filename ) {
+    try {
+      return IOUtils.readLines(Utils.class.getResourceAsStream("/"+filename), "utf-8");
+    } catch (IOException e) {
+      e.printStackTrace();
       return null;
     }
   }

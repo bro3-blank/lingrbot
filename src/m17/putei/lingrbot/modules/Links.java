@@ -1,6 +1,8 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.modules;
 
 import java.util.Map;
+
+import m17.putei.lingrbot.Utils;
 
 public class Links {
 

@@ -1,10 +1,13 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.modules;
+
+import m17.putei.lingrbot.IDB;
+import m17.putei.lingrbot.Utils;
 
 
 public class Omikuji {
   
   private IDB db;
-  private final static String[] lines = Utils.readLines("omikuji.txt");
+  private final static String[] lines = Utils.readLinesInArray("omikuji.txt");
   
   public Omikuji( IDB db ) {
     this.db = db;

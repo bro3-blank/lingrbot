@@ -1,4 +1,4 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.servlet;
 
 import java.io.IOException;
 import java.util.List;

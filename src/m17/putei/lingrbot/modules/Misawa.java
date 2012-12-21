@@ -1,4 +1,6 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.modules;
+
+import m17.putei.lingrbot.Utils;
 
 
 public class Misawa {

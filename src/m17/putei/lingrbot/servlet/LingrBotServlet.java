@@ -1,4 +1,4 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,13 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import m17.putei.lingrbot.Robot;
+
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 @SuppressWarnings("serial")
 public class LingrBotServlet extends HttpServlet {
 
-  private ReplyGenerator generator = new ReplyGenerator();
+  private Robot bot;
+  
+  public LingrBotServlet( Robot bot ) {
+    this.bot = bot;
+  }
   
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -23,7 +29,7 @@ public class LingrBotServlet extends HttpServlet {
     resp.setCharacterEncoding("utf-8");
     String u = req.getParameter("user");
     String t = req.getParameter("text");
-    String reply = generator.generateReply(t, u);
+    String reply = bot.reply(t, u);
     resp.getWriter().println(reply);
     resp.getWriter().flush();
   }
@@ -46,7 +52,7 @@ public class LingrBotServlet extends HttpServlet {
       JSONObject msg = json.getJSONArray("events").getJSONObject(0).getJSONObject("message");
       String text = msg.getString("text").trim();
       String user = msg.getString("nickname").trim();
-      String reply = generator.generateReply( text.trim(), user.trim() );
+      String reply = bot.reply( text.trim(), user.trim() );
       resp.getWriter().println(reply);
       resp.getWriter().flush();
     } catch (JSONException e) {}
