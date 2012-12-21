@@ -2,7 +2,9 @@ package m17.putei.lingrbot;
 
 import java.util.Map;
 
-
+/**
+ * 大阪弁に変換
+ */
 public class Osaka {
 
   private Map<String,String> conv = Utils.readKeyValue("osaka.txt");

@@ -1,5 +1,9 @@
 package m17.putei.lingrbot;
 
+/**
+ * 永続化の方法がGoogle Datastoreから変わった時のために、一応
+ * インターフェイス化しておく。
+ */
 public interface IDB {
 
   void storeUser( String user, String date, String content );

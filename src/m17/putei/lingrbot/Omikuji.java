@@ -1,6 +1,5 @@
 package m17.putei.lingrbot;
 
-import m17.putei.lingrbot.ReplyGenerator;
 
 public class Omikuji {
   
