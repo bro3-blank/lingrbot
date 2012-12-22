@@ -1,5 +1,6 @@
 管理シート	https://docs.google.com/spreadsheet/ccc?key=0AsTxf61QhGbidExZVkZ4Uk9TQnN0ZVJDdkNnWlJWeVE#gid=1
-攻略シート	https://docs.google.com/spreadsheet/ccc?key=0AgMwYu07K08_dEdzMW5JY0d2WGlxZG9uX0x3NXFpOHc
+初期攻略シート	https://docs.google.com/spreadsheet/ccc?key=0AgMwYu07K08_dEdzMW5JY0d2WGlxZG9uX0x3NXFpOHc
+攻略シート https://docs.google.com/spreadsheet/ccc?key=0AhBldsqAf-T8dG1kaG01T2lHQlFiekIzQl90cEktNUE#gid=1
 遠征図	https://cacoo.com/diagrams/E2D8s7OZBHBlVmwG
 ブログ		http://ameblo.jp/putei1724/
 ウィキ		http://www45.atwiki.jp/dainippon

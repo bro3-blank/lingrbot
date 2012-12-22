@@ -91,11 +91,13 @@ public class Utils {
     return Math.random() < 0.05 ? msg : "";
   }
   
-  private final static int[] num = {0,1,2,3,4,5,6,7,8,9};
-  private final static String[] num2 = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"};
+  private final static String[] num = {"0","1","2","3","4","5","6","7","8","9",
+    "S","R","U","C"};
+  private final static String[] num2 = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９",
+    "Ｓ","Ｒ","Ｕ","Ｃ"};
   public static String toHankaku( String s ) {
     for ( int i=0; i<num.length; i++ ) {
-      s = s.replaceAll(num2[i], num[i]+"");
+      s = s.replaceAll(num2[i], num[i]);
     }
     return s;
   }

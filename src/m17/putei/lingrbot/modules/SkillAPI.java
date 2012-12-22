@@ -43,9 +43,24 @@ public class SkillAPI {
     Matcher mWikiUrls = pWikiUrls.matcher(atwiki);
     while ( mWikiUrls.find() ) {
       String url = mWikiUrls.group(1);
-      String name = mWikiUrls.group(2);
-      Skill s = db.get(name);
-      if ( s!=null ) s.setUrl(url);
+      String wikiname = mWikiUrls.group(2);
+      {
+        Skill s = db.get(wikiname);
+        if ( s!=null ) {
+          s.setUrl(url);
+        }
+      }
+      for ( String name : db.keySet() ) {
+        if ( name.contains(wikiname) ) {
+          Skill s = db.get(name);
+          if(s.getUrl()==null) s.setUrl(url);
+        }
+      }
+//      Skill s = db.get(name);
+//      
+//      if ( s!=null ) {
+//        s.setUrl(url);
+//      }
     }
     return db;
   }
@@ -79,8 +94,8 @@ public class SkillAPI {
     }
     if (skill!=null) {
       sb.append( "初期装備武将: "+skill.getSkillOwner()+"\n" );
-      sb.append( skill.getUrl() );
     }
+    if (skill!=null && skill.getUrl()!=null) sb.append( skill.getUrl() );
     return sb.toString();
   }
   
