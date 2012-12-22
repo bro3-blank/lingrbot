@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import m17.putei.lingrbot.LingrBotAPI;
 import m17.putei.lingrbot.Robot;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
@@ -23,6 +24,7 @@ public class LingrBotServlet extends HttpServlet {
     this.bot = bot;
   }
   
+  //For testing!!
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     resp.setContentType("text/plain; charset=utf-8");
@@ -34,6 +36,7 @@ public class LingrBotServlet extends HttpServlet {
     resp.getWriter().flush();
   }
   
+  //Real impl here!!
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     resp.setContentType("text/plain; charset=utf-8");
@@ -53,8 +56,16 @@ public class LingrBotServlet extends HttpServlet {
       String text = msg.getString("text").trim();
       String user = msg.getString("nickname").trim();
       String reply = bot.reply( text.trim(), user.trim() );
-      resp.getWriter().println(reply);
-      resp.getWriter().flush();
+      String[] lines = reply.split("\n");
+      if (lines.length<15) {
+        resp.getWriter().println(reply);
+        resp.getWriter().flush();
+      } else {
+        //１５行以上のメッセージは分割投稿
+        LingrBotAPI.safePostMessage( bot.getRoomId(), bot.getBotId(), bot.getVerifier(), lines );
+        resp.getWriter().print("");
+        resp.getWriter().flush();
+      }
     } catch (JSONException e) {}
   }
   

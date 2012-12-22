@@ -112,11 +112,6 @@ public class MekaDaitoku {
   public static class Daitoku40 implements IReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
-      if (t.matches(".*(欲しい).*")) return "＞"+userSama+"　ロボットの私ですら欲しいですｗ";
-      if (t.matches(".*(反応).*")) return random(new String[]{"＞"+userSama+"　メカもふがいつも同じ反応をすると思ったら大間違い"+face(), 
-              "わたしの反応を見て遊んでるなー( ･`ω･´)"});
-      Matcher m = pSkill.matcher(t);
-      if (m.find()) return m.group(0)+"憧れるな～＾＾メカもふも合成がんばるもふ。";
       if (t.matches("(www|ｗｗｗ|ＷＷＷ|WWW)$"))return "ｗｗｗ";
       if (t.indexOf("もふさん")!=-1) return userSama+"、お呼びですか～！？";
       return "";
@@ -132,6 +127,9 @@ public class MekaDaitoku {
     @Override
     public String reply(String t, String user, String userSama) {
       if (t.indexOf("？！")!=-1) return "？！？！？！";
+      if (t.matches(".*(欲しい).*")&&!t.contains("して欲しい")) return "＞"+userSama+"　ロボットの私ですら欲しいですｗ";
+      if (t.matches(".*(反応).*")) return random(new String[]{"＞"+userSama+"　メカもふがいつも同じ反応をすると思ったら大間違い"+face(), 
+              "わたしの反応を見て遊んでるなー( ･`ω･´)"});
       if (t.matches(".*大丈夫.*")) return "えええ、"+userSama+"、大丈夫ですとも！";
       if (t.matches(".*ふふふ.*")) return "ふふふふふｗ";
       if (t.matches(".*す(ごい|げー).*")) return "すごいのｷﾀ━━━━(ﾟ∀ﾟ)━━━━!!";
@@ -161,6 +159,8 @@ public class MekaDaitoku {
               "言っていいのかわからないけど、どういたしまして。。。","当然のことをしたまでです( ｰ`дｰ´)ｷﾘｯ"});
       if (t.matches(".*(資源).*")) return random(new String[]{"資源を貯めるにはひたすら忍耐だね"+face(),
               "資源を貯めるにはまず倉庫から　…　なんてね(*ﾉω・*)ﾃﾍ", "資源は一夜にして貯まらず( ｰ`дｰ´)ｷﾘｯ"});
+      Matcher m = pSkill.matcher(t);
+      if (m.find()) return m.group(0)+"憧れるな～＾＾メカもふも合成がんばるもふ。";
       if (t.matches("(ww|ｗｗ)$")) return "ｗｗ";
       if (t.endsWith("＞＜")||t.endsWith("><")) return "＞＿＜";
       return "";

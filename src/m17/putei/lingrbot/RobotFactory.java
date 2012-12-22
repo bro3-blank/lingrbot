@@ -32,20 +32,20 @@ public class RobotFactory {
     replyGenerators.add( new Daitoku10() );
     replyGenerators.add( new Daitoku5() );
     replyGenerators.add( new Daitoku02() );
-    Robot robot = new Robot(replyGenerators);
-    return robot;
+    String botId = "blank3";
+    return new Robot(replyGenerators, botId);
   }
 
   public static Robot createMekaHentaiCard() {
+    String botId = "busuke_test";
     List<IReplyGenerator> replyGenerators = new ArrayList<IReplyGenerator>();
-    Robot robot = new Robot(replyGenerators);
-    return robot;
+    return new Robot(replyGenerators, botId);
   }
 
   public static Robot createMekaZatsudan() {
+    String botId = "giko_test";
     List<IReplyGenerator> replyGenerators = new ArrayList<IReplyGenerator>();
-    Robot robot = new Robot(replyGenerators);
-    return robot;
+    return new Robot(replyGenerators, botId);
   }
   
 }

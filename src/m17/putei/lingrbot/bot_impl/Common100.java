@@ -2,18 +2,21 @@ package m17.putei.lingrbot.bot_impl;
 
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.api.server.spi.IoUtil;
 
 import m17.putei.lingrbot.DatastoreDB;
 import m17.putei.lingrbot.IReplyGenerator;
 import m17.putei.lingrbot.Utils;
+import m17.putei.lingrbot.modules.Busho;
+import m17.putei.lingrbot.modules.BushoAPI;
 import m17.putei.lingrbot.modules.Links;
 import m17.putei.lingrbot.modules.Misawa;
 import m17.putei.lingrbot.modules.Omikuji;
 import m17.putei.lingrbot.modules.Osaka;
+
+import com.google.api.server.spi.IoUtil;
 
 public class Common100 implements IReplyGenerator {
 
@@ -28,6 +31,7 @@ public class Common100 implements IReplyGenerator {
   private Misawa misawa = new Misawa();
   private Omikuji omikuji = new Omikuji(new DatastoreDB());
   private Links links = new Links();
+  private BushoAPI bushoAPI = new BushoAPI();
   
   @Override
   public String reply( String t, String user, String userSama ) {
@@ -48,6 +52,10 @@ public class Common100 implements IReplyGenerator {
           return processCommand(mCommand.group(1), t, userSama, user);
         }
       }
+      if (t.charAt(0)=='!' && t.length()>2) {
+        String arg = t.substring(1);
+        return processCommand(arg, t, userSama, user);
+      }
     }
     return "";
   }
@@ -63,32 +71,44 @@ public class Common100 implements IReplyGenerator {
       String link = links.query(arg);
       if ( link != null ) {
         return "っ "+link;
-      } else if (mKyogo.find()) {
+      }
+      if (mKyogo.find()) {
         String direction = mKyogo.group(1);
-        String q = Utils.replaceNum(mKyogo.group(2));
+        String q = Utils.toHankaku(mKyogo.group(2));
         URL url = new URL(npcDBURL+"?direction="+URLEncoder.encode(direction, "UTF-8")+"&q="+URLEncoder.encode(q, "UTF-8"));
         String ret = IoUtil.readStream(url.openStream());
         if (ret.startsWith("9期")) return userSama+"、"+ret;
-      } if (arg.matches(".*(URL|ＵＲＬ).*")) {
+      } else if (arg.contains("砦")) {
+        return "ん？どんな砦情報が知りたいの？もっと詳しくお願い(´・ω・`)";
+      }
+      if (arg.matches(".*(URL|ＵＲＬ).*")) {
         return "どのURLを知りたいですか？\n"+links.keys();
-      } if (arg.matches(".*(こまんど|コマンド|へるぷ|ヘルプ).*")) {
+      }
+      if (arg.matches(".*(こまんど|コマンド|へるぷ|ヘルプ).*")) {
         return "メカもふのコマンド教えてあげるね"+Utils.face()+"\n【１. 競合砦報告】　「南西競合砦」「南東競合砦　☆3」「南西競合砦　劉備軍」「南西競合砦　馬」\n" +
             "【２. 君主情報】　 「もふもふ商店」\n【３. ブックマーク】　詳しくは「URL」で\n【４. 占い】　「おみくじ」";
-      } if (arg.startsWith("大阪弁")) {
+      }
+      if (arg.startsWith("大阪弁")) {
         return osaka.toOsaka(t, 0);
-      } if (arg.startsWith("みさわ")) {
+      }
+      if (arg.startsWith("みさわ")) {
         return misawa.misawa();
-      } if (arg.matches(".*(おみくじ|運勢|うんせい|うらない|占い).*")) {
+      }
+      if (arg.matches(".*(おみくじ|運勢|うんせい|うらない|占い).*")) {
         return userSama+"の今日の運勢は..."+omikuji.run(user);
-      } else {
-        URL url = new URL(playerDBURL+"?player="+URLEncoder.encode(arg, "UTF-8"));
-        String ret = IoUtil.readStream(url.openStream());
-        if (ret.startsWith("君主")) {
-          if (ret.contains("見つかりません")) {
-            return userSama+"、"+ret+"\n（メカもふのわかる命令一覧を見るには、「こまんど」って入れてね♪）";
-          } else {
-            return userSama+"、"+ret;
-          }
+      }
+      Matcher mBusho = BushoAPI.pBusho.matcher(arg);
+      if ( mBusho.find() ) {
+        String result = bushoAPI.lookup( arg, mBusho.group(0) );
+        if (result.length()>0) return userSama+"、以下のカードが見つかりました\n"+result;
+      }
+      URL url = new URL(playerDBURL+"?player="+URLEncoder.encode(arg, "UTF-8"));
+      String ret = IoUtil.readStream(url.openStream());
+      if (ret.startsWith("君主")) {
+        if (ret.contains("見つかりません")) {
+          return userSama+"、"+ret+"\n（メカもふのわかる命令一覧を見るには、「こまんど」って入れてね♪）";
+        } else {
+          return userSama+"、"+ret;
         }
       }
     } catch (Exception e) {

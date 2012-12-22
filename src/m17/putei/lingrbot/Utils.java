@@ -84,7 +84,7 @@ public class Utils {
   
   private final static int[] num = {0,1,2,3,4,5,6,7,8,9};
   private final static String[] num2 = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"};
-  public static String replaceNum( String s ) {
+  public static String toHankaku( String s ) {
     for ( int i=0; i<num.length; i++ ) {
       s = s.replaceAll(num2[i], num[i]+"");
     }

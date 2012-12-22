@@ -17,14 +17,30 @@ public class Busho {
   private final static int ISOKU    = 12;
   private final static int SKILL    = 16;
   
-  private String[] internalData;
+  private String[] cols;
   
   public Busho( String[] cols ) {
-    internalData = cols;
+    this.cols = cols;
   }
   
+  public String getRarity() {
+    return cols[RARITY];
+  }
+  
+  public String getCost() {
+    return cols[COST];
+  }
+  
+  public String getID() {
+    return cols[ID];
+  }
+
+  @Override
   public String toString() {
-    return null;
+    return "ID="+cols[ID]+" | "+cols[NAME]+" "+(cols[RARITY].length()==1?"_":"")
+            +cols[RARITY]+" "+cols[COST]+" | "+cols[TYPE]+" | "+
+            "攻"+cols[KOUGEKI]+" 知"+cols[CHIRYOKU]+
+            " 防"+cols[DEF1]+"-"+cols[DEF2]+"-"+cols[DEF3]+"-"+cols[DEF4]+
+            " 移"+cols[ISOKU]+" | "+cols[SKILL];
   }
-  
 }
