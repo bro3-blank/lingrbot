@@ -1,7 +1,7 @@
 package m17.putei.lingrbot.modules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -28,7 +28,7 @@ public class BushoAPI {
   }
   
   public Map<String,List<Busho>> load() {
-    Map<String,List<Busho>> db = new HashMap<String,List<Busho>>();
+    Map<String,List<Busho>> db = new LinkedHashMap<String,List<Busho>>();
     List<String> lines = Utils.readLines( filename );
     for ( String line : lines ) {
       Matcher m = p.matcher(line);
@@ -44,17 +44,16 @@ public class BushoAPI {
     return db;
   }
   
-  public List<Busho> lookup( String name ) {
+  public List<Busho> getBusho( String name ) {
     List<Busho> bushos = bushoDB.get(name);
     return bushos;
   }
   
-  public String lookup( String arg, String name ) {
+  public List<Busho> getBusho( String arg, String name ) {
     arg =  Utils.toHankaku(arg);
-    List<Busho> bushos = lookup( name );
-    if (bushos==null) return "";
+    List<Busho> bushos = getBusho( name );
+    if (bushos==null) return null;
     Matcher mRarity = pRarity.matcher(arg);
-    Matcher mCost = pCost.matcher(arg);
     if (mRarity.find()) {
       List<Busho> filteredBushos = new ArrayList<Busho>();
       String rarity = mRarity.group(0).toUpperCase();
@@ -65,22 +64,35 @@ public class BushoAPI {
       }
       bushos = filteredBushos;
     }
+    Matcher mCost = pCost.matcher(arg);
     if (mCost.find()) {
-      List<Busho> filteredBushos = new ArrayList<Busho>();
-      int cost = (int)(Double.parseDouble(mCost.group(0))*10);
-      for ( Busho busho : bushos ) {
-        int bCost = (int)(Double.parseDouble(busho.getCost())*10);
-        if (bCost==cost) {//hack to comparing 3 against 3.0
-          filteredBushos.add( busho );
+      String costText = mCost.group(0);
+      if (costText.length()<=3) {//reject busho id
+        List<Busho> filteredBushos = new ArrayList<Busho>();
+        int cost = (int)(Double.parseDouble(costText)*10);
+        for ( Busho busho : bushos ) {
+          int bCost = (int)(Double.parseDouble(busho.getCost())*10);
+          if (bCost==cost) {//hack for comparing 3 against 3.0
+            filteredBushos.add( busho );
+          }
         }
+        bushos = filteredBushos;
       }
-      bushos = filteredBushos;
     }
+    return bushos;
+  }
+  
+  public String lookupBusho( String arg, String name ) {
+    List<Busho> bushos = getBusho( arg, name );
+    if (bushos==null) return "";
     StringBuilder sb = new StringBuilder();
-    for ( Busho busho : bushos ) {
+    for ( int i=0; i<bushos.size(); i++ ) {
+      Busho busho = bushos.get(i);
+      //"["+(i+1)+"] "+
       sb.append( busho.toString()+"\n" );
     }
-    for ( Busho busho : bushos ) {
+    for ( int i=0; i<bushos.size(); i++ ) {
+      Busho busho = bushos.get(i);
       sb.append( "http://m17.3gokushi.jp/card/trade.php?s=price&o=a&t=no&k="+busho.getID()+"\n" );
     }
     return sb.toString();
@@ -88,7 +100,7 @@ public class BushoAPI {
   
   public static void main(String[] args) {
     BushoAPI api = new BushoAPI();
-    System.out.println(api.lookup("張飛", "張飛"));
+    System.out.println(api.lookupBusho("張飛", "張飛"));
   }
   
 }

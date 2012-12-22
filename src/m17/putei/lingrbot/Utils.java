@@ -57,6 +57,15 @@ public class Utils {
     }
   }
   
+  public static String readFully( String filename ) {
+    try {
+      return IOUtils.toString(Utils.class.getResourceAsStream("/"+filename), "utf-8");
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+  
   public static String getDate() {
     Calendar c = Calendar.getInstance(TimeZone.getTimeZone("JST"));
     return c.get(Calendar.YEAR)+"-"+(c.get(Calendar.MONTH)+1)+"-"+c.get(Calendar.DAY_OF_MONTH);

@@ -37,7 +37,7 @@ public class Busho {
 
   @Override
   public String toString() {
-    return "ID="+cols[ID]+" | "+cols[NAME]+" "+(cols[RARITY].length()==1?"_":"")
+    return "["+cols[ID]+"] "+cols[NAME]+" "+(cols[RARITY].length()==1?"_":"")
             +cols[RARITY]+" "+cols[COST]+" | "+cols[TYPE]+" | "+
             "攻"+cols[KOUGEKI]+" 知"+cols[CHIRYOKU]+
             " 防"+cols[DEF1]+"-"+cols[DEF2]+"-"+cols[DEF3]+"-"+cols[DEF4]+

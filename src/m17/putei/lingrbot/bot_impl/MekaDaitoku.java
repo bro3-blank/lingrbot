@@ -42,7 +42,9 @@ public class MekaDaitoku {
       if (t.startsWith("|_")) return t.contains("|彡") ? "お主やるな...まじんぎれる隙がない( ｰ`дｰ´)ｷﾘｯ" : "( ｰ`дｰ´)まじんぎり";
       if (t.matches(".*食べて.*")) return userSama+"、メカもご飯に連れてって～"+face();
       if (t.matches(".*寝(オチ|落ち).*")) return random(new String[]{
-              userSama+"、寝落ちは絶対ダメ。風邪引きますよ＞＜",userSama+"の健康がマジ心配っす(´・ω・`)","もふもふのお布団敷いといたから、そこで寝てね☆"});
+              userSama+"、寝落ちは絶対ダメ。風邪引きますよ＞＜",
+              userSama+"の健康がマジ心配っす(´・ω・`)",
+              "もふもふのお布団敷いといたから、そこで寝てね☆"});
       if (t.matches(".*成長.*")) return userSama+"は成長期もう終わったんですか？"+face();
       if (t.matches(".*いらっ[じし]ゃ.*")) return t+face();
       if (t.matches(".*(しばく|バカ|バーカ|死ね|氏ね|アホ).*")) return random(new String[]{
@@ -50,6 +52,7 @@ public class MekaDaitoku {
               "ヽ(#ﾟДﾟ)ﾉ┌┛(ノ´Д｀)ノ ← "+userSama, "( ≧Д≦) ､ ､ ､ﾍﾟｯﾍﾟｯﾍﾟ!!", ";y=ｰ( ﾟдﾟ)･∵. ﾀｰﾝ"});
       if (t.matches(".*報告.?")) return userSama+"、報告ご苦労"+face();
       if (t.matches(".*任せ.?")) return userSama+"、任されました"+face();
+      if (t.matches(".*空気(嫁|読め|よめ).?")) return userSama+"、それ一番苦手です"+face();
       if (t.matches(".*仲良し.*")) return random(new String[]{"ﾅｶ━━(´･ω･`) 人(´･ω･`)━━ﾏ!!","ﾙﾝﾙﾝ♪ﾟ.+:｡((o(･ω･)人(･ω･)o))ﾟ.+:｡ﾙﾝﾙﾝ♪","(*´･ω･)(･ω･｀*)"});
       if (t.startsWith("よろしく")) return userSama+"、メカもふにまかせてください"+face();
       if (t.startsWith("夜勤")) return "夜勤の間の留守はメカもふにまかせてください"+face();
