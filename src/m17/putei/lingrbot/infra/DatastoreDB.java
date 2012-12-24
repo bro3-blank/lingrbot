@@ -1,4 +1,4 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.infra;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;

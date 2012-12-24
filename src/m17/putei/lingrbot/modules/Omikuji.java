@@ -1,7 +1,7 @@
 package m17.putei.lingrbot.modules;
 
-import m17.putei.lingrbot.IDB;
 import m17.putei.lingrbot.Utils;
+import m17.putei.lingrbot.infra.IDB;
 
 
 public class Omikuji {

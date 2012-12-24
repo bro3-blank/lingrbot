@@ -17,7 +17,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>cardbot</servlet-name>
-		<servlet-class>m17.putei.lingrbot.servlet.HentaiCardServlet</servlet-class>
+		<servlet-class>m17.putei.lingrbot.servlet.CardServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>cardbot</servlet-name>

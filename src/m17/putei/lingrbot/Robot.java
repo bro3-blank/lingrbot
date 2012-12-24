@@ -1,35 +1,45 @@
 package m17.putei.lingrbot;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Properties;
 
+import m17.putei.lingrbot.bot_impl.AbstractReplyGenerator;
 import m17.putei.lingrbot.bot_impl.UserMapper;
 
 public class Robot {
 
-  private List<IReplyGenerator> replyGenerators;
+  private List<AbstractReplyGenerator> replyGenerators;
   private String roomId;
   private String botId;
   private String verifier;
+  private String botName;
   
-  public Robot( List<IReplyGenerator> replyGenerators, String botId ) {
-    this.replyGenerators = replyGenerators;
+  public Robot( String botId ) {
     this.botId = botId;
     try {
       Properties p = new Properties();
-      p.load(Robot.class.getResourceAsStream("/bot_config.properties"));
+      InputStream is = this.getClass().getResourceAsStream("/bot_config.properties");
+      p.load(new InputStreamReader(is, "utf-8"));
       this.roomId = p.getProperty(botId + ".roomId").trim();
       this.verifier = p.getProperty(botId + ".verifier").trim();
+      this.botName = p.getProperty(botId + ".botName").trim();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
   
-  public Robot( List<IReplyGenerator> replyGenerators, String roomId, String botId, String verifier ) {
-    this.replyGenerators = replyGenerators;
+  public Robot( String roomId, String botId, String verifier, String botName ) {
     this.roomId = roomId;
     this.botId = botId;
     this.verifier = verifier;
+    this.botName = botName;
+  }
+  
+  //separated from the constructor; factory class responsible for init
+  public void initialize( List<AbstractReplyGenerator> replyGenerators ) {
+    this.replyGenerators = replyGenerators;
   }
   
   public String reply( String t, String user ) {
@@ -38,7 +48,7 @@ public class Robot {
     String userSama = UserMapper.getName(user);
     double r = Math.random();
     //sort
-    for ( IReplyGenerator rg : replyGenerators ) {
+    for ( AbstractReplyGenerator rg : replyGenerators ) {
       if ( r > rg.getThreshold() ) return "";
       String result = rg.reply( t, user, userSama );
       if (result!=null && result.length()>0) return result; 
@@ -56,6 +66,10 @@ public class Robot {
 
   public String getVerifier() {
     return verifier;
+  }
+
+  public String getBotName() {
+    return botName;
   }
   
 }

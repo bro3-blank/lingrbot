@@ -1,4 +1,4 @@
-package m17.putei.lingrbot;
+package m17.putei.lingrbot.infra;
 
 /**
  * 永続化の方法がGoogle Datastoreから変わった時のために、一応

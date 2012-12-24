@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import m17.putei.lingrbot.LingrBotAPI;
 import m17.putei.lingrbot.Robot;
+import m17.putei.lingrbot.infra.LingrBotAPI;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;

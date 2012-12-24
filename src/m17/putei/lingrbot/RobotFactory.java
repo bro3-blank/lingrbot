@@ -3,16 +3,16 @@ package m17.putei.lingrbot;
 import java.util.ArrayList;
 import java.util.List;
 
-import m17.putei.lingrbot.bot_impl.Common100;
-import m17.putei.lingrbot.bot_impl.MekaHentaiCard;
+import m17.putei.lingrbot.bot_impl.AbstractReplyGenerator;
+import m17.putei.lingrbot.bot_impl.MekaCard100;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku02;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku10;
-import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku100;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku20;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku40;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku5;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku60;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku80;
+import m17.putei.lingrbot.bot_impl.MekaDaitoku100;
 
 /**
  * Assemble reply generators to make individual robot
@@ -24,9 +24,11 @@ public class RobotFactory {
 
   //メカもふ、大督部屋
   public static Robot createMekaDaitoku() {
-    List<IReplyGenerator> replyGenerators = new ArrayList<IReplyGenerator>();
-    replyGenerators.add( new Common100() );
-    replyGenerators.add( new Daitoku100() );
+    String botId = "blank2";
+//  String botId = "blank3";//for testing
+    Robot bot = new Robot( botId );
+    List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
+    replyGenerators.add( new MekaDaitoku100() );
     replyGenerators.add( new Daitoku80() );
     replyGenerators.add( new Daitoku60() );
     replyGenerators.add( new Daitoku40() );
@@ -34,26 +36,38 @@ public class RobotFactory {
     replyGenerators.add( new Daitoku10() );
     replyGenerators.add( new Daitoku5() );
     replyGenerators.add( new Daitoku02() );
-    String botId = "blank2";
-//    String botId = "blank3";//for testing
-    return new Robot(replyGenerators, botId);
+    for ( AbstractReplyGenerator rg : replyGenerators ) {
+      rg.initialize(bot);
+    }
+    bot.initialize(replyGenerators);
+    return bot;
   }
 
   //メカギコ、カード部屋
-  public static Robot createMekaHentaiCard() {
+  public static Robot createMekaCard() {
 //    String botId = "giko_test";
     String botId = "meka3";
-    List<IReplyGenerator> replyGenerators = new ArrayList<IReplyGenerator>();
-    replyGenerators.add( new MekaHentaiCard() );
-    return new Robot(replyGenerators, botId);
+    Robot bot = new Robot( botId );
+    List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
+    replyGenerators.add( new MekaCard100() );
+    for ( AbstractReplyGenerator rg : replyGenerators ) {
+      rg.initialize(bot);
+    }
+    bot.initialize(replyGenerators);
+    return bot;
   }
 
   //メカぶうすけ、雑談部屋
   public static Robot createMekaZatsudan() {
     String botId = "busuke_test";
 //  String botId = "mekamofu2";
-    List<IReplyGenerator> replyGenerators = new ArrayList<IReplyGenerator>();
-    return new Robot(replyGenerators, botId);
+    Robot bot = new Robot( botId );
+    List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
+    for ( AbstractReplyGenerator rg : replyGenerators ) {
+      rg.initialize(bot);
+    }
+    bot.initialize(replyGenerators);
+    return bot;
   }
   
 }

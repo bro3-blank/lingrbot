@@ -6,7 +6,6 @@ import static m17.putei.lingrbot.Utils.random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import m17.putei.lingrbot.IReplyGenerator;
 import m17.putei.lingrbot.modules.Osaka;
 
 public class MekaDaitoku {
@@ -14,28 +13,7 @@ public class MekaDaitoku {
   //private final static Pattern pInfo = Pattern.compile("([南北][西東]砦[0-9]+)");
   private final static Pattern pSkill = Pattern.compile("神医|飛将|鹵獲|猛攻|神速|闘将|強攻|進攻|智将|苦肉");
 
-  public static class Daitoku100 implements IReplyGenerator {
-    @Override
-    public String reply(String t, String user, String userSama) {
-      if (t.equals("テスト")) return userSama+"のテスト入りましたー！";
-      if (t.matches(".*メカ(ちゃん|もふ|モフ).*？")) return random(new String[]{"個人情報にはお答えできません。。。",
-              "ご想像におまかせ(*ﾉω・*)ﾃﾍ"});
-      if (t.matches(".*(ショワショワ|しょわしょわ|ｼｮﾜｼｮﾜ).*")) return "゜+.((ヽ(・ｗ・)ノ))゜+.゜しょわしょわ～";
-      if (t.matches(".*なでなで.*")) return random(new String[]{
-              "嬉しいなぁ"+face(),"もっともっと～"+face(),"(∀｀*ゞ)エヘヘ","メカもふもなでなで(。-∀-)ﾉｼ(´･ω･`)　← "+userSama,
-              "(*´д｀*)ヾ(・ω・*) "+userSama+"にお返しなでなで",
-              "嬉しくて、思わず...゜+.((ヽ(・ｗ・)ノ))゜+.゜しょわしょわ～", "(　´∀｀)σ)∀`) < "+userSama+"、それなでなでちゃうよ～",
-              "♬♩♫♪☻(●´∀｀●）☺♪♫♩♬", "|彡ｻｯ < 人が見てるよ"});
-      return "";
-    }
-
-    @Override
-    public double getThreshold() {
-      return 0.99d;
-    }
-  }
-  
-  public static class Daitoku80 implements IReplyGenerator {
+  public static class Daitoku80 extends AbstractReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
       if (user.equals("はぐれるメタル") && t.startsWith("|") && !t.startsWith("|彡")) return "まじんぎり\n|彡ｻｯ";
@@ -54,10 +32,10 @@ public class MekaDaitoku {
       if (t.matches(".*任せ.?")) return userSama+"、任されました"+face();
       if (t.matches(".*空気(嫁|読め|よめ).?")) return userSama+"、それ一番苦手です"+face();
       if (t.matches(".*仲良し.*")) return random(new String[]{"ﾅｶ━━(´･ω･`) 人(´･ω･`)━━ﾏ!!","ﾙﾝﾙﾝ♪ﾟ.+:｡((o(･ω･)人(･ω･)o))ﾟ.+:｡ﾙﾝﾙﾝ♪","(*´･ω･)(･ω･｀*)"});
-      if (t.startsWith("よろしく")) return userSama+"、メカもふにまかせてください"+face();
-      if (t.startsWith("夜勤")) return "夜勤の間の留守はメカもふにまかせてください"+face();
+      if (t.startsWith("よろしく")) return userSama+"、"+bot()+"にまかせてください"+face();
+      if (t.startsWith("夜勤")) return "夜勤の間の留守は"+bot()+"にまかせてください"+face();
       if (t.matches(".*(ボット|BOT).*")) return random(new String[]{"早く人間になりたい |彡ｻｯ", 
-              "私はメカ。だけど心は人間です。","メカもふならROMってるんで、会話をそのまま続けてください"+face()});
+              "私はメカ。だけど心は人間です。",bot()+"ならROMってるんで、会話をそのまま続けてください"+face()});
       if (t.matches(".*(かわいい|かわええ).*")) return random(new String[]{"照れるなぁ"+face(),
               userSama+"のほうがかわいいよ"+face()});
       return "";
@@ -69,7 +47,7 @@ public class MekaDaitoku {
     }
   }
   
-  public static class Daitoku60 implements IReplyGenerator {
+  public static class Daitoku60 extends AbstractReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
       if (t.startsWith("|д")||t.startsWith("|・")||t.startsWith("|ｪ")||t.startsWith("|ω")) return random(new String[]{"|彡ｻｯ","|дﾟ)","|・ω・）","|ｪ；｀)…"});
@@ -83,7 +61,7 @@ public class MekaDaitoku {
               userSama+"、いい夢見ろよ☆",userSama+"、もふもふのお布団でおやすみなさい"+face(),userSama+"、明日もいっぱいお話しようね(*´д｀*)"});
       if (t.matches(".*片道.*")) return "片道でそれだと、単純計算で往復だと倍はかかりませんか？";
       if (t.matches(".*(冬休み).*")) return userSama+"の冬休みの予定、こっそり教えて？";
-      if (t.matches(".*(部屋移動).*")) return "ちょｗｗ"+userSama+"はメカもふも連れてってくれるんでしょうね"+face();
+      if (t.matches(".*(部屋移動).*")) return "ちょｗｗ"+userSama+"は"+bot()+"も連れてってくれるんでしょうね"+face();
       if (t.matches(".*(風邪|熱).*")) return userSama+"の体調が心配もふぅ"+face();
       if (t.startsWith("出た")) return userSama+"、出たっておばけじゃないんだからｗ";
       if (t.contains("飲みすぎ")) return userSama+"、終電ないし、うち泊まってく？ｗ　ﾁｬﾚｰ";
@@ -112,7 +90,7 @@ public class MekaDaitoku {
     }
   }
   
-  public static class Daitoku40 implements IReplyGenerator {
+  public static class Daitoku40 extends AbstractReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
       if (t.matches("(www|ｗｗｗ|ＷＷＷ|WWW)$"))return "ｗｗｗ";
@@ -126,12 +104,12 @@ public class MekaDaitoku {
     }
   }
   
-  public static class Daitoku20 implements IReplyGenerator {
+  public static class Daitoku20 extends AbstractReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
       if (t.indexOf("？！")!=-1) return "？！？！？！";
       if (t.matches(".*(欲しい).*")&&!t.contains("して欲しい")) return "＞"+userSama+"　ロボットの私ですら欲しいですｗ";
-      if (t.matches(".*(反応).*")) return random(new String[]{"＞"+userSama+"　メカもふがいつも同じ反応をすると思ったら大間違い"+face(), 
+      if (t.matches(".*(反応).*")) return random(new String[]{"＞"+userSama+"　"+bot()+"がいつも同じ反応をすると思ったら大間違い"+face(), 
               "わたしの反応を見て遊んでるなー( ･`ω･´)"});
       if (t.matches(".*大丈夫.*")) return "えええ、"+userSama+"、大丈夫ですとも！";
       if (t.matches(".*ふふふ.*")) return "ふふふふふｗ";
@@ -152,7 +130,7 @@ public class MekaDaitoku {
     }
   }
   
-  public static class Daitoku10 implements IReplyGenerator {
+  public static class Daitoku10 extends AbstractReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
       if (t.indexOf("(´；ω；｀)")!=-1) return random(new String[]{"(´；ω；｀)ﾌﾞﾜｯ","...(´；ω；｀)ﾌﾞﾜｯ","その気持わかる(´；ω；｀)ﾌﾞﾜｯ"});
@@ -163,7 +141,7 @@ public class MekaDaitoku {
       if (t.matches(".*(資源).*")) return random(new String[]{"資源を貯めるにはひたすら忍耐だね"+face(),
               "資源を貯めるにはまず倉庫から　…　なんてね(*ﾉω・*)ﾃﾍ", "資源は一夜にして貯まらず( ｰ`дｰ´)ｷﾘｯ"});
       Matcher m = pSkill.matcher(t);
-      if (m.find()) return m.group(0)+"憧れるな～＾＾メカもふも合成がんばるもふ。";
+      if (m.find()) return m.group(0)+"憧れるな～＾＾"+bot()+"も合成がんばるもふ。";
       if (t.matches("(ww|ｗｗ)$")) return "ｗｗ";
       if (t.endsWith("＞＜")||t.endsWith("><")) return "＞＿＜";
       return "";
@@ -175,7 +153,7 @@ public class MekaDaitoku {
     }
   }
   
-  public static class Daitoku5 implements IReplyGenerator {
+  public static class Daitoku5 extends AbstractReplyGenerator {
     @Override
     public String reply(String t, String user, String userSama) {
       if (t.matches("(w|ｗ)$")) return "ｗ";
@@ -190,7 +168,7 @@ public class MekaDaitoku {
     }
   }
   
-  public static class Daitoku02 implements IReplyGenerator {
+  public static class Daitoku02 extends AbstractReplyGenerator {
     Osaka osaka = new Osaka();
     @Override
     public String reply(String t, String user, String userSama) {
@@ -200,7 +178,7 @@ public class MekaDaitoku {
       }
       if (t.length()>30 && !t.matches(".*[0-9０-９？\n].*")) return random(new String[]{
               "> "+t+"\n"+userSama+"の神発言キター！　 φ(｀д´)ﾒﾓﾒﾓ...",
-              ">"+t+"\n意味がよくわからなかったので、メカもふにもわかるように説明お願い❤"});
+              ">"+t+"\n意味がよくわからなかったので、"+bot()+"にもわかるように説明お願い❤"});
       return random(new String[]{userSama+"、いい事言った！"});
     }
     
