@@ -7,12 +7,11 @@ import java.util.regex.Pattern;
 
 import m17.putei.lingrbot.Utils;
 import m17.putei.lingrbot.infra.DatastoreDB;
+import m17.putei.lingrbot.infra.NetworkAPI;
 import m17.putei.lingrbot.modules.BushoAPI;
 import m17.putei.lingrbot.modules.Links;
 import m17.putei.lingrbot.modules.Omikuji;
 import m17.putei.lingrbot.modules.SkillAPI;
-
-import com.google.api.server.spi.IoUtil;
 
 public abstract class AbstractCommon100 extends AbstractReplyGenerator {
 
@@ -76,7 +75,7 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
         String direction = mKyogo.group(1);
         String q = Utils.toHankaku(mKyogo.group(2));
         URL url = new URL(npcDBURL+"?direction="+URLEncoder.encode(direction, "UTF-8")+"&q="+URLEncoder.encode(q, "UTF-8"));
-        String ret = IoUtil.readStream(url.openStream());
+        String ret = NetworkAPI.getContentFromURL(url);
         if (ret.startsWith("9期")) return userSama+"、"+ret;
       } else if (arg.contains("砦")) {
         return "ん？どんな砦情報が知りたいの？もっと詳しくお願い(´・ω・`)";
@@ -106,7 +105,7 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
         if (botSpecific!=null && botSpecific.length()>0) return botSpecific;
       }
       URL url = new URL(playerDBURL+"?player="+URLEncoder.encode(arg, "UTF-8"));
-      String ret = IoUtil.readStream(url.openStream());
+      String ret = NetworkAPI.getContentFromURL(url);
       if (ret.startsWith("君主")) {
         if (ret.contains("見つかりません")) {
           return userSama+"、"+ret+"\n（"+bot()+"のわかる命令一覧を見るには、「こまんど」って入れてね♪）";

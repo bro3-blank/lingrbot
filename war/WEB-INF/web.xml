@@ -39,6 +39,22 @@
 		<servlet-name>dumpdata</servlet-name>
 		<url-pattern>/dumpdata</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>crontest</servlet-name>
+		<servlet-class>m17.putei.lingrbot.servlet.CronTestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>crontest</servlet-name>
+		<url-pattern>/crontest</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>tradereminder</servlet-name>
+		<servlet-class>m17.putei.lingrbot.servlet.TradeReminderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>tradereminder</servlet-name>
+		<url-pattern>/tradereminder</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<!-- <welcome-file>guestbook.jsp</welcome-file>  -->
 		<welcome-file>index.html</welcome-file>

@@ -1,10 +1,7 @@
 package m17.putei.lingrbot.infra;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import m17.putei.lingrbot.Robot;
 import m17.putei.lingrbot.RobotFactory;
@@ -32,56 +29,21 @@ public class LingrBotAPI {
     for ( int i=0; i<lines.length; i++ ) {
       fragment.append( lines[i]+"\n" );
       if (i%15==14) {
-        sendMessageByPOST( roomId, botId, verifier, fragment.toString() );
+        sendMessage( roomId, botId, verifier, fragment.toString() );
         fragment = new StringBuilder();
       }
     }
-    if (fragment.length()>0) sendMessageByPOST( roomId, botId, verifier, fragment.toString() );
+    if (fragment.length()>0) sendMessage( roomId, botId, verifier, fragment.toString() );
   }
   
-  public static void sendMessageByPOST( String roomId, String botId, String verifier, String message ) {
-    try {
-      String charset = "UTF-8";
-      String query = String.format("room=%s&bot=%s&bot_verifier=%s&text=%s",
-        URLEncoder.encode(roomId, charset), 
-        URLEncoder.encode(botId, charset),
-        URLEncoder.encode(verifier, charset),
-        URLEncoder.encode(message, charset));
-      URL url = new URL("http://lingr.com/api/room/say");
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setDoOutput(true);
-      connection.setRequestProperty("Accept-Charset", charset);
-      connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
-      connection.setRequestMethod("POST");
-      connection.getOutputStream().write( query.getBytes() );
-      connection.getResponseCode();      //Fires when res code returned
-      connection.disconnect();
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-  
-  public static void sendMessageByGET( String roomId, String botId, String verifier, String message ) {
-    try {
-      String charset = "UTF-8";
-      String query = String.format("room=%s&bot=%s&bot_verifier=%s&text=%s",
-              URLEncoder.encode(roomId, charset), 
-              URLEncoder.encode(botId, charset),
-              URLEncoder.encode(verifier, charset),
-              URLEncoder.encode(message, charset));
-      URL url = new URL("http://lingr.com/api/room/say?"+query);
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setRequestProperty("Accept-Charset", charset);
-      connection.setRequestMethod("GET"); 
-      connection.getResponseCode();      //Fires when res code returned
-      connection.disconnect();
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public static void sendMessage( String roomId, String botId, String verifier, String message ) {
+    Map<String,String> params = new LinkedHashMap<String,String>();
+    params.put("room", roomId);
+    params.put("bot", botId);
+    params.put("bot_verifier", verifier);
+    params.put("text", message);
+    String url = "http://lingr.com/api/room/say";
+    NetworkAPI.sendMessageByPOST(url, params);
   }
   
   public static void main(String[] args) {

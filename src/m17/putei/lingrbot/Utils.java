@@ -1,11 +1,14 @@
 package m17.putei.lingrbot;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import org.apache.commons.io.IOUtils;
@@ -100,6 +103,18 @@ public class Utils {
       s = s.replaceAll(num2[i], num[i]);
     }
     return s;
+  }
+  
+  public static Properties loadProperties( String filename ) {
+    Properties p = new Properties();
+    try {
+      InputStream is = Utils.class.getResourceAsStream("/"+filename);
+      p.load(new InputStreamReader(is, "utf-8"));
+      is.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return p;
   }
   
 }

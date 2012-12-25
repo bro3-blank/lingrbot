@@ -1,14 +1,18 @@
 package m17.putei.lingrbot;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Properties;
 
 import m17.putei.lingrbot.bot_impl.AbstractReplyGenerator;
 import m17.putei.lingrbot.bot_impl.UserMapper;
 
-public class Robot {
+public enum Robot {
+  MEKA_DAITOKU("blank2"),
+  MEKA_DAITOKU_TEST("blank3"),
+  MEKA_ZATSUDAN("mekamofu2"),
+  MEKA_ZATSUDAN_TEST("busuke_test"),
+  MEKA_CARD("meka3"),
+  MEKA_CARD_TEST("giko_test");
 
   private List<AbstractReplyGenerator> replyGenerators;
   private String roomId;
@@ -16,12 +20,10 @@ public class Robot {
   private String verifier;
   private String botName;
   
-  public Robot( String botId ) {
+  private Robot( String botId ) {
     this.botId = botId;
     try {
-      Properties p = new Properties();
-      InputStream is = this.getClass().getResourceAsStream("/bot_config.properties");
-      p.load(new InputStreamReader(is, "utf-8"));
+      Properties p = Utils.loadProperties("bot_config.properties");
       this.roomId = p.getProperty(botId + ".roomId").trim();
       this.verifier = p.getProperty(botId + ".verifier").trim();
       this.botName = p.getProperty(botId + ".botName").trim();
@@ -30,7 +32,7 @@ public class Robot {
     }
   }
   
-  public Robot( String roomId, String botId, String verifier, String botName ) {
+  private Robot( String roomId, String botId, String verifier, String botName ) {
     this.roomId = roomId;
     this.botId = botId;
     this.verifier = verifier;

@@ -24,9 +24,7 @@ public class RobotFactory {
 
   //メカもふ、大督部屋
   public static Robot createMekaDaitoku() {
-    String botId = "blank2";
-//  String botId = "blank3";//for testing
-    Robot bot = new Robot( botId );
+    Robot bot = Robot.MEKA_DAITOKU;
     List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
     replyGenerators.add( new MekaDaitoku100() );
     replyGenerators.add( new Daitoku80() );
@@ -45,9 +43,7 @@ public class RobotFactory {
 
   //メカギコ、カード部屋
   public static Robot createMekaCard() {
-//    String botId = "giko_test";
-    String botId = "meka3";
-    Robot bot = new Robot( botId );
+    Robot bot = Robot.MEKA_CARD;
     List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
     replyGenerators.add( new MekaCard100() );
     for ( AbstractReplyGenerator rg : replyGenerators ) {
@@ -59,9 +55,7 @@ public class RobotFactory {
 
   //メカぶうすけ、雑談部屋
   public static Robot createMekaZatsudan() {
-    String botId = "busuke_test";
-//  String botId = "mekamofu2";
-    Robot bot = new Robot( botId );
+    Robot bot = Robot.MEKA_ZATSUDAN;
     List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
     for ( AbstractReplyGenerator rg : replyGenerators ) {
       rg.initialize(bot);
