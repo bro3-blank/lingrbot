@@ -63,7 +63,7 @@ public class SkillAPI {
       String wikiname = mWikiUrls.group(2);
 //      aaa.add(wikiname);
       if ( wikiname.contains("＞") ) continue;
-      System.out.println(wikiname+"\t"+url);
+//      System.out.println(wikiname+"\t"+url);
       {
         Skill s = db.get(wikiname);
         if ( s==null ) {
@@ -123,6 +123,7 @@ public class SkillAPI {
   }
   
   public String lookupSkill( String name ) {
+    boolean found = false;
     StringBuilder sb = new StringBuilder();
     Skill skill = getSkill( name );
     List<Skill> skillsNormal  = getGoseiNormal( name );
@@ -135,17 +136,19 @@ public class SkillAPI {
     if (skill!=null) {
       List<String> owners = skill.getSkillOwner();
       sb.append( "初期装備武将: "+(owners.size()>0?sortByRarity(owners):"なし")+"\n" );
+      found = true;
     }
-    {
-      List<String> sozaiNormal = new ArrayList<String>();
-      List<String> sozaiKakushi = new ArrayList<String>();
-      for ( Skill s : skillsNormal ) sozaiNormal.addAll(s.getSkillOwner());
-      for ( Skill s : skillsKakushi ) sozaiKakushi.addAll(s.getSkillOwner());
-      sb.append( "通常付与素材武将: " + (sozaiNormal.size()>0 ? sortByRarity(sozaiNormal):"なし")+"\n" );
-      sb.append( "隠し付与素材武将: " + (sozaiKakushi.size()>0 ? sortByRarity(sozaiKakushi):"なし")+"\n" );
+    List<String> sozaiNormal = new ArrayList<String>();
+    List<String> sozaiKakushi = new ArrayList<String>();
+    for ( Skill s : skillsNormal ) sozaiNormal.addAll(s.getSkillOwner());
+    for ( Skill s : skillsKakushi ) sozaiKakushi.addAll(s.getSkillOwner());
+    sb.append( "通常付与素材武将: " + (sozaiNormal.size()>0 ? sortByRarity(sozaiNormal):"なし")+"\n" );
+    sb.append( "隠し付与素材武将: " + (sozaiKakushi.size()>0 ? sortByRarity(sozaiKakushi):"なし")+"\n" );
+    if (skill!=null && skill.getUrl()!=null) {
+      found = true;
+      sb.append( skill.getUrl() );
     }
-    if (skill!=null && skill.getUrl()!=null) sb.append( skill.getUrl() );
-    return sb.toString();
+    return found ? sb.toString() : "";
   }
   
   private static String sortByRarity( List<String> bushos ) {

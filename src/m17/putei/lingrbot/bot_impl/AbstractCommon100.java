@@ -28,7 +28,7 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
   private SkillAPI skillAPI = new SkillAPI();
   
   @Override
-  public final String reply( String t, String user, String userSama ) {
+  public final String reply( String t, String user, String userSama, String roomId ) {
     {
       Matcher mZahyo = pZahyo.matcher(t);
       String s = null;
@@ -42,14 +42,14 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
       if (mCommand.find()) {
         String afterParen = mCommand.group(2);
         if (afterParen.length()==0 || !afterParen.matches("^(と|っ).*")) { 
-          return processCommand(mCommand.group(1), t, userSama, user);
+          return processCommand(mCommand.group(1), t, userSama, user, roomId);
         }
       }
       if ((t.charAt(0)=='!' || t.charAt(0)=='！') 
               && (!t.contains("！？") && !t.contains("！！") &&!t.contains("!?") && !t.contains("!!")) 
               && t.length()>2) {
         String arg = t.substring(1);
-        return processCommand(arg, t, userSama, user);
+        return processCommand(arg, t, userSama, user, roomId);
       }
     }
     {
@@ -64,9 +64,10 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
     return 1D;
   }
   
-  protected String processCommand(String arg, String t, String userSama, String user) {
+  protected String processCommand(String arg, String t, 
+          String userSama, String user, String roomId) {
     try {
-      String link = links.query(arg);
+      String link = links.query(arg, roomId);
       if ( link != null ) {
         return "っ "+link;
       }
@@ -81,7 +82,10 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
         return "ん？どんな砦情報が知りたいの？もっと詳しくお願い(´・ω・`)";
       }
       if (arg.matches(".*(URL|ＵＲＬ).*")) {
-        return "どのURLを知りたいですか？\n"+links.keys();
+        return "どのURLを知りたいですか？\n"+links.linkKeys(roomId);
+      }
+      if (arg.matches(".*(シート).*")) {
+        return "どのURLを知りたいですか？\n"+links.sheetLinkKeys(roomId);
       }
       if (arg.matches(".*(こまんど|コマンド|へるぷ|ヘルプ|？|\\?|めにゅー|メニュー).*")) {
         return bot()+"のコマンド教えてあげるね"+Utils.face()+"\n" +
@@ -108,7 +112,8 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
       String ret = NetworkAPI.getContentFromURL(url);
       if (ret.startsWith("君主")) {
         if (ret.contains("見つかりません")) {
-          return userSama+"、"+ret+"\n（"+bot()+"のわかる命令一覧を見るには、「こまんど」って入れてね♪）";
+//          return userSama+"、"+ret+"\n（"+bot()+"のわかる命令一覧を見るには、「こまんど」って入れてね♪）";
+          return "";
         } else {
           return userSama+"、"+ret;
         }

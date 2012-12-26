@@ -52,7 +52,7 @@ public enum Robot {
     //sort
     for ( AbstractReplyGenerator rg : replyGenerators ) {
       if ( r > rg.getThreshold() ) return "";
-      String result = rg.reply( t, user, userSama );
+      String result = rg.reply( t, user, userSama, roomId );
       if (result!=null && result.length()>0) return result; 
     }
     return "";

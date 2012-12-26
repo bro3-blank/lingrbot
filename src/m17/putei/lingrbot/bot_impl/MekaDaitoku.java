@@ -15,7 +15,7 @@ public class MekaDaitoku {
 
   public static class Daitoku80 extends AbstractReplyGenerator {
     @Override
-    public String reply(String t, String user, String userSama) {
+    public String reply(String t, String user, String userSama, String roomId) {
       if (user.equals("はぐれるメタル") && t.startsWith("|") && !t.startsWith("|彡")) return "まじんぎり\n|彡ｻｯ";
       if (t.startsWith("|_")) return t.contains("|彡") ? "お主やるな...まじんぎれる隙がない( ｰ`дｰ´)ｷﾘｯ" : "( ｰ`дｰ´)まじんぎり";
       if (t.matches(".*食べて.*")) return userSama+"、メカもご飯に連れてって～"+face();
@@ -49,7 +49,7 @@ public class MekaDaitoku {
   
   public static class Daitoku60 extends AbstractReplyGenerator {
     @Override
-    public String reply(String t, String user, String userSama) {
+    public String reply(String t, String user, String userSama, String roomId) {
       if (t.startsWith("|д")||t.startsWith("|・")||t.startsWith("|ｪ")||t.startsWith("|ω")) return random(new String[]{"|彡ｻｯ","|дﾟ)","|・ω・）","|ｪ；｀)…"});
       if (t.startsWith("|彡")) return random(new String[]{"|彡ｻｯ",
               "|彡ｻｯ < "+userSama+"置いてかないで～","|彡ｻｯ < "+userSama+"待って～",
@@ -92,7 +92,7 @@ public class MekaDaitoku {
   
   public static class Daitoku40 extends AbstractReplyGenerator {
     @Override
-    public String reply(String t, String user, String userSama) {
+    public String reply(String t, String user, String userSama, String roomId) {
       if (t.matches("(www|ｗｗｗ|ＷＷＷ|WWW)$"))return "ｗｗｗ";
       if (t.indexOf("もふさん")!=-1) return userSama+"、お呼びですか～！？";
       return "";
@@ -106,7 +106,7 @@ public class MekaDaitoku {
   
   public static class Daitoku20 extends AbstractReplyGenerator {
     @Override
-    public String reply(String t, String user, String userSama) {
+    public String reply(String t, String user, String userSama, String roomId) {
       if (t.indexOf("？！")!=-1) return "？！？！？！";
       if (t.matches(".*(欲しい).*")&&!t.contains("して欲しい")) return "＞"+userSama+"　ロボットの私ですら欲しいですｗ";
       if (t.matches(".*(反応).*")) return random(new String[]{"＞"+userSama+"　"+bot()+"がいつも同じ反応をすると思ったら大間違い"+face(), 
@@ -131,8 +131,20 @@ public class MekaDaitoku {
   }
   
   public static class Daitoku10 extends AbstractReplyGenerator {
+    private Osaka osaka = new Osaka();
     @Override
-    public String reply(String t, String user, String userSama) {
+    public String reply(String t, String user, String userSama, String roomId) {
+      if (user.equals("みぃこ")) { 
+        String tOsaka = osaka.toOsaka(t,4);
+        if (tOsaka.length()>0) {
+          return bot()+random(new String[]{"、大阪弁勉強してんねんけど、今の大阪弁でいうとこうかな？",
+                  "に大阪弁おしえてよ、"+userSama+"(*´д｀*) 今のはこれでいい？",
+                  "の大阪弁きいてきいてー",
+                  "はホンマは大阪弁ようけしゃべれるよ。今の大阪弁だとこうでしょ？",
+                  })
+                  +"\n「"+tOsaka+"」";
+        }
+      }
       if (t.indexOf("(´；ω；｀)")!=-1) return random(new String[]{"(´；ω；｀)ﾌﾞﾜｯ","...(´；ω；｀)ﾌﾞﾜｯ","その気持わかる(´；ω；｀)ﾌﾞﾜｯ"});
       if (t.matches(".*(糧村).*")) return random(new String[]{"ここだけの話ね、"+userSama+"、わたし糧村に住んでたことあるんだよ。",
               "糧村の回収期間を計算するかどうかで性格出るよね～","話まじんぎるけど、☆9糧村に木石鉄の生産施設作る派の人～？"});
@@ -155,7 +167,7 @@ public class MekaDaitoku {
   
   public static class Daitoku5 extends AbstractReplyGenerator {
     @Override
-    public String reply(String t, String user, String userSama) {
+    public String reply(String t, String user, String userSama, String roomId) {
       if (t.matches("(w|ｗ)$")) return "ｗ";
       if (t.matches(".*ですね[wｗ。]*")) return random(new String[]{"（"+userSama+"にまるっと同意ですｗ）","(ﾟдﾟ)(｡_｡)(ﾟдﾟ)(｡_｡) ｳﾝｳﾝ"});
       if (t.matches(".*(うんうん|ｳﾝｳﾝ|ウンウン).*")) return random(new String[]{"(ﾟдﾟ)(｡_｡)(ﾟдﾟ)(｡_｡) ｳﾝｳﾝ"});
@@ -169,13 +181,8 @@ public class MekaDaitoku {
   }
   
   public static class Daitoku02 extends AbstractReplyGenerator {
-    Osaka osaka = new Osaka();
     @Override
-    public String reply(String t, String user, String userSama) {
-      String tOsaka = osaka.toOsaka(t,5);
-      if (tOsaka.length()>0) {
-        return "今のをみぃこお嬢様風の大阪弁に直すとこうなります。\n「"+tOsaka+"」";
-      }
+    public String reply(String t, String user, String userSama, String roomId) {
       if (t.length()>30 && !t.matches(".*[0-9０-９？\n].*")) return random(new String[]{
               "> "+t+"\n"+userSama+"の神発言キター！　 φ(｀д´)ﾒﾓﾒﾓ...",
               ">"+t+"\n意味がよくわからなかったので、"+bot()+"にもわかるように説明お願い❤"});

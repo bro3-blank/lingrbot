@@ -55,6 +55,14 @@
 		<servlet-name>tradereminder</servlet-name>
 		<url-pattern>/tradereminder</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>newsreport</servlet-name>
+		<servlet-class>m17.putei.lingrbot.servlet.NewsReportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>newsreport</servlet-name>
+		<url-pattern>/newsreport</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<!-- <welcome-file>guestbook.jsp</welcome-file>  -->
 		<welcome-file>index.html</welcome-file>

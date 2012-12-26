@@ -13,7 +13,7 @@ public abstract class AbstractReplyGenerator {
     return bot.getBotName();
   }
   
-  abstract public String reply( String t, String user, String userSama );
+  abstract public String reply( String t, String user, String userSama, String roomId );
   abstract public double getThreshold();
   
 }
