@@ -19,9 +19,11 @@ public class MekaDaitoku {
       if (user.equals("はぐれるメタル") && t.startsWith("|") && !t.startsWith("|彡")) return "まじんぎり\n|彡ｻｯ";
       if (t.startsWith("|_")) return t.contains("|彡") ? "お主やるな...まじんぎれる隙がない( ｰ`дｰ´)ｷﾘｯ" : "( ｰ`дｰ´)まじんぎり";
       if (t.matches(".*食べて.*")) return userSama+"、メカもご飯に連れてって～"+face();
+      if (t.matches(".*お呼びでない.*")) return random(new String[]{"|дﾟ)ﾁﾗｯ","こりゃまた失礼しました～"});
       if (t.matches(".*寝(オチ|落ち).*")) return random(new String[]{
               userSama+"、寝落ちは絶対ダメ。風邪引きますよ＞＜",
               userSama+"の健康がマジ心配っす(´・ω・`)",
+              userSama+"寝落ちしすぎﾜﾛﾀ(´；ω；｀)ﾌﾞﾜｯ",
               "もふもふのお布団敷いといたから、そこで寝てね☆"});
       if (t.matches(".*成長.*")) return userSama+"は成長期もう終わったんですか？"+face();
       if (t.matches(".*いらっ[じし]ゃ.*")) return t+face();
@@ -145,7 +147,7 @@ public class MekaDaitoku {
                   +"\n「"+tOsaka+"」";
         }
       }
-      if (t.indexOf("(´；ω；｀)")!=-1) return random(new String[]{"(´；ω；｀)ﾌﾞﾜｯ","...(´；ω；｀)ﾌﾞﾜｯ","その気持わかる(´；ω；｀)ﾌﾞﾜｯ"});
+      if (t.indexOf("(´；ω；｀)")!=-1) return random(new String[]{"(´；ω；｀)ﾌﾞﾜｯ","...(´；ω；｀)ﾌﾞﾜｯ","気持わかる。。。(´；ω；｀)ﾌﾞﾜｯ","つωT｀)ヾ (ﾟДﾟ )…ｲ㌔"});
       if (t.matches(".*(糧村).*")) return random(new String[]{"ここだけの話ね、"+userSama+"、わたし糧村に住んでたことあるんだよ。",
               "糧村の回収期間を計算するかどうかで性格出るよね～","話まじんぎるけど、☆9糧村に木石鉄の生産施設作る派の人～？"});
       if (t.matches(".*(ありがと).*")) return random(new String[]{userSama+"、礼には及ばんですよ(｀･ω･´)ゞ",

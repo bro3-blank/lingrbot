@@ -20,7 +20,7 @@ public class MekaZatsudan100 extends AbstractCommon100 {
 
   @Override
   protected String getBotSpecificReply(String t, String user, String userSama) {
-    if (t.matches(".*メカ(ぶうすけ).*")) return random(new String[]{"メカぶうすけは元気だぴょーん！ｷｭ━.+ﾟ*(оﾟдﾟо)*ﾟ+.━ﾝ☆"});
+    if (t.matches(".*メカ(ぶうすけ).*")) return "メカぶうすけは元気だぴょーん！"+random(new String[]{"ｷｭ━.+ﾟ*(оﾟдﾟо)*ﾟ+.━ﾝ☆","゜+.((ヽ(・ｗ・)ノ))゜+.゜しょわしょわ"});
     return "";
   }
 }

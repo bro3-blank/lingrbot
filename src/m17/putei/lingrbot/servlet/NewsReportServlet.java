@@ -1,6 +1,8 @@
 package m17.putei.lingrbot.servlet;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import m17.putei.lingrbot.Robot;
+import m17.putei.lingrbot.Utils;
 import m17.putei.lingrbot.infra.LingrBotAPI;
 import m17.putei.lingrbot.infra.NetworkAPI;
 
 @SuppressWarnings("serial")
 public class NewsReportServlet extends HttpServlet {
 
+  private static final int MAX_NEWS = 7;
   private static final String urlGeneralNews = "https://news.google.com/news/feeds?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=rss";
   private static final String urlBura3News   = "https://news.google.com/news/feeds?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=rss&q=%22%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E4%B8%89%E5%9B%BD%E5%BF%97%22";
   
@@ -22,16 +26,42 @@ public class NewsReportServlet extends HttpServlet {
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     resp.setContentType("text/plain; charset=utf-8");
     resp.setCharacterEncoding("utf-8");
-
     if (req.getServerName().contains("lingrzatsudanbot")) {
       Robot bot = Robot.MEKA_ZATSUDAN;
-      String msg = bot.getBotName()+"が6時のニュースをお届けします。\n"+NewsReportServlet.getNews(urlGeneralNews, false);
-      LingrBotAPI.sendMessage( bot.getRoomId(), bot.getBotId(), 
-              bot.getVerifier(), msg );
-    }    
-
-    resp.getWriter().println("成功！");
+      String msg = generateMessage(bot);
+      LingrBotAPI.sendMessage( bot.getRoomId(), bot.getBotId(), bot.getVerifier(), msg );
+    }
+    resp.getWriter().println("");
     resp.getWriter().flush();
+  }
+  
+  private static String generateMessage(Robot bot) {
+    int hour = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).get(Calendar.HOUR_OF_DAY);
+    boolean isMorning = hour==6;
+    StringBuilder sb = new StringBuilder();
+    String greeting = isMorning ? "おはようございます、":"こんばんは、";
+    sb.append( "（・(ｪ)・）「"+greeting+bot.getBotName()+"が"+hour+"時のニュースをお届けします。」\n" );
+    sb.append( NewsReportServlet.getNews(urlGeneralNews, false) );
+    sb.append( "（・(ｪ)・）「" );
+    sb.append( Utils.random(new String[]{
+            "世知づらい世の中ですね。",
+            "凄惨な事件が続きますね。",
+            "一足お先に、ほのぼのとした春の話題をお届けしました。",
+            "年末らしい話題でしたね。",
+            "たいして目新しい話題はなかったですね。",
+            "今日も平和ですね。",
+            "言いたい事も言えないこんな世の中じゃ POISON～♪"}) );
+    sb.append( (isMorning?Utils.random(new String[]{
+            "今日も気をつけていってらっしゃい！",
+            "忘れ物はないですか？いってらっしゃい！",
+            "それでは今日も一日お元気で！ごきげんよう！",
+            "それでは、また夜のニュースで！"})
+     :Utils.random(new String[]{
+             "本日も「もふもふ商店」の提供でお送りしました。さようなら！",
+             "それでは、今夜も"+bot.getBotName()+"がお届けしました！",
+             "それでは、また朝のニュースで！"})) );
+    sb.append( "」" );
+    return sb.toString();
   }
   
   public static String getNews(String url, boolean bura3News) {
@@ -40,6 +70,7 @@ public class NewsReportServlet extends HttpServlet {
     Pattern pItems = Pattern.compile("<title>(.+?)</title>.*?<link>.*?url=(.+?)</link>.*?<description>(.+?)</description>", Pattern.DOTALL);
     Matcher mItem = pItem.matcher(content);
     StringBuilder sb = new StringBuilder();
+    int counter = 0;
     while ( mItem.find() ) {
       Matcher mItems = pItems.matcher(mItem.group(1));
       if ( mItems.find() ) {
@@ -50,21 +81,25 @@ public class NewsReportServlet extends HttpServlet {
           }
         } else {
           sb.append(" - "+mItems.group(1)+"\n");
+          sb.append("　"+mItems.group(2)+"\n");
         }
       }
+      if (++counter>=MAX_NEWS) break;
     }
     return sb.toString();
   }
   
   public static void main(String[] args) {
+    
     Robot bot = Robot.MEKA_ZATSUDAN_TEST;
-    String msg = bot.getBotName()+"が6時のニュースをお届けします。\n"+NewsReportServlet.getNews(urlGeneralNews, false);
+    String msg = generateMessage(bot);
     LingrBotAPI.sendMessage( bot.getRoomId(), bot.getBotId(), 
             bot.getVerifier(), msg );
-    System.out.println(NetworkAPI.getContentFromURL("http://lingr.com/api/room/say?room="
-            +bot.getRoomId()+"&bot="+bot.getBotId()+"&bot_verifier"+bot.getVerifier()+"&text=TESTING"));
-    System.out.println(NewsReportServlet.getNews(urlGeneralNews, false));
-    System.out.println(NewsReportServlet.getNews(urlBura3News, true));
+    
+//    System.out.println(NetworkAPI.getContentFromURL("http://lingr.com/api/room/say?room="
+//            +bot.getRoomId()+"&bot="+bot.getBotId()+"&bot_verifier"+bot.getVerifier()+"&text=TESTING"));
+//    System.out.println(NewsReportServlet.getNews(urlGeneralNews, false));
+//    System.out.println(NewsReportServlet.getNews(urlBura3News, true));
   }
   
 }
