@@ -1,5 +1,7 @@
 package m17.putei.lingrbot.bot_impl;
 
+import static m17.putei.lingrbot.Utils.random;
+
 
 public class MekaZatsudan100 extends AbstractCommon100 {
 
@@ -18,6 +20,7 @@ public class MekaZatsudan100 extends AbstractCommon100 {
 
   @Override
   protected String getBotSpecificReply(String t, String user, String userSama) {
-    return null;
+    if (t.matches(".*メカ(ぶうすけ).*")) return random(new String[]{"メカぶうすけは元気だぴょーん！ｷｭ━.+ﾟ*(оﾟдﾟо)*ﾟ+.━ﾝ☆"});
+    return "";
   }
 }
