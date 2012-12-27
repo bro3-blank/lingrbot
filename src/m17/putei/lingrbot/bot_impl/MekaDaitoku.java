@@ -55,10 +55,11 @@ public class MekaDaitoku {
       if (t.startsWith("|д")||t.startsWith("|・")||t.startsWith("|ｪ")||t.startsWith("|ω")) return random(new String[]{"|彡ｻｯ","|дﾟ)","|・ω・）","|ｪ；｀)…"});
       if (t.startsWith("|彡")) return random(new String[]{"|彡ｻｯ",
               "|彡ｻｯ < "+userSama+"置いてかないで～","|彡ｻｯ < "+userSama+"待って～",
-              userSama+"、さようなら(T_T)/~~~","|彡+ﾟ*｡:ﾟ ｻｻｯ♪", "ε=＼＿○ﾉ < まってー"});
+              userSama+"、さようなら(T_T)/~~~","|彡+ﾟ*｡:ﾟ ｻｻｯ♪", "ε=＼＿○ﾉ < まってー", "|ｮ；｀ｪ；)"+userSama+"…"});
       if (t.contains("( ´∀｀)b")) return "( ´∀｀)bｸﾞｯ!";
       if (t.contains("エロ")) return "*(´Д｀●)ｱﾝ";
-      if (t.matches("お[っ]?は.*")) return random(new String[]{userSama+"、おはもふぅ～","おはようございます、"+userSama});
+      if (t.matches("お[っ]?は.*")) return random(new String[]{userSama+"、おはもふぅ～",
+              "おはようございます、"+userSama, userSama+"会いたかった！ｵﾊｷｭﾝｷｭ━.+ﾟ*(оﾟдﾟо)*ﾟ+.━ﾝ☆"});
       if (t.matches(".*(おやすみ|ｵﾔｽﾐ|寝ます|zzz).*")) return random(new String[]{userSama+"、おやすみ～"+face(),
               userSama+"、いい夢見ろよ☆",userSama+"、もふもふのお布団でおやすみなさい"+face(),userSama+"、明日もいっぱいお話しようね(*´д｀*)"});
       if (t.matches(".*片道.*")) return "片道でそれだと、単純計算で往復だと倍はかかりませんか？";

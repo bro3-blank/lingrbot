@@ -12,7 +12,7 @@ public class Links {
   public String query( String key, String roomId ) {
     if (key.equals("管理シート") && !roomId.matches(daitokuRooms)) return "http:// .... 幹部にお問い合わせください(´・ω・`)";
     if (key.equals("ソロシート")  && !roomId.matches(daitokuRooms)) return "http:// .... 幹部にお問い合わせください(´・ω・`)";
-    return links.get(key);
+    return links.get(key).replaceAll("<br>", "\n");
   }
   
   public String linkKeys(String roomId) {

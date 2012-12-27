@@ -14,6 +14,7 @@ public class UserMapper {
     if (user.equals("ぶうすけ")) return Utils.random005("溥杏の盟主代々の神技を引き継いだニヒルな")+user+"盟主"; 
     if (user.equals("きっこりぃ")) user = Utils.random005("議事録をまとめがすごかった")+user; 
     if (user.equals("バジル")) user = Utils.random005("みかんの星からやってきた")+"バジ";
+    if (user.equals("ペレオン大提督")) user = "ペレオン";
     if (user.equals("みぃこ")) user = Utils.random005("愛とエロの伝道師、")+user;
     if (user.equals("ぷり☆けつ")) user = Utils.random005("なぜお尻なのか謎の")+Utils.random(new String[]{"お尻","プリ"});
     if (user.equals("とんとん")) user = Utils.random005("なぜかﾁｬﾚｰってよく言われてる")+Utils.random(new String[]{"とんとん","トントン","フェイフェイパパ"});

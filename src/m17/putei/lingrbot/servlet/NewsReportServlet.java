@@ -21,6 +21,7 @@ public class NewsReportServlet extends HttpServlet {
   private static final int MAX_NEWS = 7;
   private static final String urlGeneralNews = "https://news.google.com/news/feeds?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=rss";
   private static final String urlBura3News   = "https://news.google.com/news/feeds?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=rss&q=%22%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E4%B8%89%E5%9B%BD%E5%BF%97%22";
+  private static final String urlWether = "http://weather.livedoor.com/forecast/rss/index.xml";
   
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -29,7 +30,7 @@ public class NewsReportServlet extends HttpServlet {
     if (req.getServerName().contains("lingrzatsudanbot")) {
       Robot bot = Robot.MEKA_ZATSUDAN;
       String msg = generateMessage(bot);
-      LingrBotAPI.sendMessage( bot.getRoomId(), bot.getBotId(), bot.getVerifier(), msg );
+      LingrBotAPI.safePostMessage( bot.getRoomId(), bot.getBotId(), bot.getVerifier(), msg );
     }
     resp.getWriter().println("");
     resp.getWriter().flush();
@@ -40,9 +41,11 @@ public class NewsReportServlet extends HttpServlet {
     boolean isMorning = hour==6;
     StringBuilder sb = new StringBuilder();
     String greeting = isMorning ? "おはようございます、":"こんばんは、";
-    sb.append( "（・(ｪ)・）「"+greeting+bot.getBotName()+"が"+hour+"時のニュースをお届けします。」\n" );
+    sb.append( "( ´⊿`)y-~~　「"+greeting+bot.getBotName()+"が"+hour+"時のニュースをお伝えします。"+(isMorning?"まずはお天気から。":"")+"」\n" );
+    sb.append( isMorning?getWether():"" );
+    sb.append( isMorning?"( ´⊿`)y-~~　「つづいてニュースです。」\n":"" );
     sb.append( NewsReportServlet.getNews(urlGeneralNews, false) );
-    sb.append( "（・(ｪ)・）「" );
+    sb.append( "( ´⊿`)y-~~　「" );
     sb.append( Utils.random(new String[]{
             "世知づらい世の中ですね。",
             "凄惨な事件が続きますね。",
@@ -89,12 +92,29 @@ public class NewsReportServlet extends HttpServlet {
     return sb.toString();
   }
   
+  public static String getWether() {
+    String content = NetworkAPI.getContentFromURL(urlWether);
+    Pattern pItems = Pattern.compile("<title>\\[ 今日の天気 \\] (.+?) - (.+?) - (.+?) -", Pattern.DOTALL);//.*?<link>.*?url=(.+?)</link>.*?<description>(.+?)</description>
+    StringBuilder sb = new StringBuilder();
+    Matcher mItems = pItems.matcher(content);//mItem.group(1)
+    int counter = 0;
+    while ( mItems.find() ) {
+      sb.append( counter%2==0 ? "　":"" );
+      sb.append( mItems.group(1)+"・・・"+mItems.group(2)+"/"+mItems.group(3));
+      sb.append( counter%2==0 ? "、　":"" );
+      sb.append( counter%2==1 ? "\n":"" );
+      ++counter;
+    }
+    return sb.toString();
+  }
+  
   public static void main(String[] args) {
-    
+    //http://weather.livedoor.com/forecast/rss/index.xml
     Robot bot = Robot.MEKA_ZATSUDAN_TEST;
     String msg = generateMessage(bot);
-    LingrBotAPI.sendMessage( bot.getRoomId(), bot.getBotId(), 
-            bot.getVerifier(), msg );
+    System.out.println(msg);
+//    LingrBotAPI.sendMessage( bot.getRoomId(), bot.getBotId(), 
+//            bot.getVerifier(), msg );
     
 //    System.out.println(NetworkAPI.getContentFromURL("http://lingr.com/api/room/say?room="
 //            +bot.getRoomId()+"&bot="+bot.getBotId()+"&bot_verifier"+bot.getVerifier()+"&text=TESTING"));
