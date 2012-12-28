@@ -14,7 +14,7 @@ import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku60;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku.Daitoku80;
 import m17.putei.lingrbot.bot_impl.MekaDaitoku100;
 import m17.putei.lingrbot.bot_impl.MekaZatsudan100;
-import m17.putei.lingrbot.bot_impl.MekaZatudan.Zatudan40;
+import m17.putei.lingrbot.bot_impl.MekaZatudan.Zatudan10;
 
 /**
  * Assemble reply generators to make individual robot
@@ -60,7 +60,7 @@ public class RobotFactory {
     Robot bot = Robot.MEKA_ZATSUDAN;
     List<AbstractReplyGenerator> replyGenerators = new ArrayList<AbstractReplyGenerator>();
     replyGenerators.add( new MekaZatsudan100() );
-    replyGenerators.add( new Zatudan40() );
+    replyGenerators.add( new Zatudan10() );
     for ( AbstractReplyGenerator rg : replyGenerators ) {
       rg.initialize(bot);
     }

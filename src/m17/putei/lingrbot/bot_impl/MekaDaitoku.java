@@ -25,7 +25,6 @@ public class MekaDaitoku {
               userSama+"の健康がマジ心配っす(´・ω・`)",
               userSama+"寝落ちしすぎﾜﾛﾀ(´；ω；｀)ﾌﾞﾜｯ",
               "もふもふのお布団敷いといたから、そこで寝てね☆"});
-      if (t.matches(".*成長.*")) return userSama+"は成長期もう終わったんですか？"+face();
       if (t.matches(".*いらっ[じし]ゃ.*")) return t+face();
       if (t.matches(".*(しばく|バカ|バーカ|死ね|氏ね|アホ).*")) return random(new String[]{
               "( ‘д‘⊂彡☆))Д´) ﾊﾟｰﾝ ← "+userSama,"(´◉◞౪◟◉)",
@@ -97,7 +96,6 @@ public class MekaDaitoku {
     @Override
     public String reply(String t, String user, String userSama, String roomId) {
       if (t.matches("(www|ｗｗｗ|ＷＷＷ|WWW)$"))return "ｗｗｗ";
-      if (t.indexOf("もふさん")!=-1) return userSama+"、お呼びですか～！？";
       return "";
     }
     
@@ -114,6 +112,7 @@ public class MekaDaitoku {
       if (t.matches(".*(欲しい).*")&&!t.contains("して欲しい")) return "＞"+userSama+"　ロボットの私ですら欲しいですｗ";
       if (t.matches(".*(反応).*")) return random(new String[]{"＞"+userSama+"　"+bot()+"がいつも同じ反応をすると思ったら大間違い"+face(), 
               "わたしの反応を見て遊んでるなー( ･`ω･´)"});
+      if (t.matches(".*成長.*")) return userSama+"は成長期もう終わったんですか？"+face();
       if (t.matches(".*大丈夫.*")) return "えええ、"+userSama+"、大丈夫ですとも！";
       if (t.matches(".*ふふふ.*")) return "ふふふふふｗ";
       if (t.matches(".*す(ごい|げー).*")) return "すごいのｷﾀ━━━━(ﾟ∀ﾟ)━━━━!!";
@@ -149,14 +148,13 @@ public class MekaDaitoku {
         }
       }
       if (t.indexOf("(´；ω；｀)")!=-1) return random(new String[]{"(´；ω；｀)ﾌﾞﾜｯ","...(´；ω；｀)ﾌﾞﾜｯ","気持わかる。。。(´；ω；｀)ﾌﾞﾜｯ","つωT｀)ヾ (ﾟДﾟ )…ｲ㌔"});
+      if (t.indexOf("もふさん")!=-1) return userSama+"、お呼びですか～！？";
       if (t.matches(".*(糧村).*")) return random(new String[]{"ここだけの話ね、"+userSama+"、わたし糧村に住んでたことあるんだよ。",
               "糧村の回収期間を計算するかどうかで性格出るよね～","話まじんぎるけど、☆9糧村に木石鉄の生産施設作る派の人～？"});
       if (t.matches(".*(ありがと).*")) return random(new String[]{userSama+"、礼には及ばんですよ(｀･ω･´)ゞ",
               "言っていいのかわからないけど、どういたしまして。。。","当然のことをしたまでです( ｰ`дｰ´)ｷﾘｯ"});
       if (t.matches(".*(資源).*")) return random(new String[]{"資源を貯めるにはひたすら忍耐だね"+face(),
               "資源を貯めるにはまず倉庫から　…　なんてね(*ﾉω・*)ﾃﾍ", "資源は一夜にして貯まらず( ｰ`дｰ´)ｷﾘｯ"});
-      Matcher m = pSkill.matcher(t);
-      if (m.find()) return m.group(0)+"憧れるな～＾＾"+bot()+"も合成がんばるもふ。";
       if (t.matches("(ww|ｗｗ)$")) return "ｗｗ";
       if (t.endsWith("＞＜")||t.endsWith("><")) return "＞＿＜";
       return "";
@@ -172,6 +170,8 @@ public class MekaDaitoku {
     @Override
     public String reply(String t, String user, String userSama, String roomId) {
       if (t.matches("(w|ｗ)$")) return "ｗ";
+      Matcher m = pSkill.matcher(t);
+      if (m.find()) return m.group(0)+"憧れるな～＾＾"+bot()+"も合成がんばるもふ。";
       if (t.matches(".*ですね[wｗ。]*")) return random(new String[]{"（"+userSama+"にまるっと同意ですｗ）","(ﾟдﾟ)(｡_｡)(ﾟдﾟ)(｡_｡) ｳﾝｳﾝ"});
       if (t.matches(".*(うんうん|ｳﾝｳﾝ|ウンウン).*")) return random(new String[]{"(ﾟдﾟ)(｡_｡)(ﾟдﾟ)(｡_｡) ｳﾝｳﾝ"});
       return "";

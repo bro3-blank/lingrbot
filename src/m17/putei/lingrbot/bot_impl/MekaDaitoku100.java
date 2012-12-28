@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import m17.putei.lingrbot.Utils;
 import m17.putei.lingrbot.infra.DatastoreDB;
 import m17.putei.lingrbot.infra.NetworkAPI;
+import m17.putei.lingrbot.modules.Links;
 import m17.putei.lingrbot.modules.Misawa;
 import m17.putei.lingrbot.modules.Omikuji;
 import m17.putei.lingrbot.modules.Osaka;
@@ -20,6 +21,7 @@ public class MekaDaitoku100 extends AbstractCommon100 {
   private final static Pattern pKyogo = Pattern.compile("([南北][東西])[砦]?[ ]?競合[砦]?[ ]*(.*)");
   private final static String npcDBURL = "https://script.google.com/macros/s/AKfycbwTot9DKVsFu_03jMuHp1HfeQf1JOaI6fjFl5R8YYtX_taBe34/exec";
 
+  private Links links = new Links();
   private Osaka osaka = new Osaka();
   private Misawa misawa = new Misawa();
   private Omikuji omikuji = new Omikuji(new DatastoreDB());
@@ -27,15 +29,16 @@ public class MekaDaitoku100 extends AbstractCommon100 {
   @Override
   protected String getCommandMenu() {
     return  "【１. 競合砦報告】　「南西競合砦」「南東競合砦　☆3」「南西競合砦　劉備軍」「南西競合砦　馬」\n" +
-            "【２. 君主情報】　 「もふもふ商店」\n" +
+            "【２. 君主情報】　 登録シート http://goo.gl/Fw2M2 から君主検索。「もふもふ商店」\n" +
             "【３. カード検索】　「張飛」「UC 張飛」「UC 張飛 2.5」\n" +
             "【４. スキル検索】　「飛将」\n" +
-            "【５. ブックマーク】　詳しくは「URL」で\n" +
+            "【５. ブックマーク】　シートなどのURLをご案内。詳しくは「URL」で\n" +
             "【６. 占い】　「おみくじ」\n";
   }
 
   @Override
   protected String getBotSpecificReply( String t, String user, String userSama ) {
+    
     if (t.equals("テスト")) return userSama+"のテスト入りましたー！";
     if (t.matches(".*メカ(ちゃん|もふ|モフ).*？")) return random(new String[]{"個人情報にはお答えできません。。。",
             "ご想像におまかせ(*ﾉω・*)ﾃﾍ"});
@@ -61,6 +64,18 @@ public class MekaDaitoku100 extends AbstractCommon100 {
         if (ret.startsWith("9期")) return userSama+"、"+ret;
       } else if (arg.contains("砦")) {
         return "ん？どんな砦情報が知りたいの？もっと詳しくお願い(´・ω・`)";
+      }
+      String link = links.query(arg, roomId);
+      if ( link != null ) {
+        return "っ "+link;
+      }
+      if (arg.matches(".*(URL|ＵＲＬ).*")) {
+        links.init();
+        return "どのURLを知りたいですか？ (リンク先の追加／修正は http://goo.gl/UlhPb )\n"+links.linkKeys(roomId);
+      }
+      if (arg.matches(".*(シート).*")) {
+        links.init();
+        return "どのURLを知りたいですか？ (リンク先の追加／修正は http://goo.gl/UlhPb )\n"+links.sheetLinkKeys(roomId);
       }
       if (arg.startsWith("大阪弁")) {
         return osaka.toOsaka(t, 0);

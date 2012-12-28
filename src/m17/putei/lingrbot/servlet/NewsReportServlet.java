@@ -47,7 +47,7 @@ public class NewsReportServlet extends HttpServlet {
     sb.append( NewsReportServlet.getNews(urlGeneralNews, false) );
     sb.append( "( ´⊿`)y-~~　「" );
     sb.append( Utils.random(new String[]{
-            "世知づらい世の中ですね。",
+            "世知辛い世の中ですね。",
             "凄惨な事件が続きますね。",
             "一足お先に、ほのぼのとした春の話題をお届けしました。",
             "年末らしい話題でしたね。",
