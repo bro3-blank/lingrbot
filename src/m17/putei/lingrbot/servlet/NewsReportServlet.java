@@ -38,7 +38,8 @@ public class NewsReportServlet extends HttpServlet {
   
   private static String generateMessage(Robot bot) {
     int hour = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).get(Calendar.HOUR_OF_DAY);
-    boolean isMorning = hour==6;
+    boolean isMorning = hour<11;
+    boolean isMondayMorning = isMorning && Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).get(Calendar.DAY_OF_WEEK)==2;
     StringBuilder sb = new StringBuilder();
     String greeting = isMorning ? "おはようございます、":"こんばんは、";
     sb.append( "( ´⊿`)y-~~　「"+greeting+bot.getBotName()+"が"+hour+"時のニュースをお伝えします。"+(isMorning?"まずはお天気から。":"")+"」\n" );
@@ -46,7 +47,7 @@ public class NewsReportServlet extends HttpServlet {
     sb.append( isMorning?"( ´⊿`)y-~~　「つづいてニュースです。」\n":"" );
     sb.append( NewsReportServlet.getNews(urlGeneralNews, false) );
     sb.append( "( ´⊿`)y-~~　「" );
-    sb.append( Utils.random(new String[]{
+    sb.append( isMondayMorning?"月曜になったので、デュエルセットをお忘れなく。":Utils.random(new String[]{
             "世知辛い世の中ですね。",
             "凄惨な事件が続きますね。",
             "一足お先に、ほのぼのとした春の話題をお届けしました。",
@@ -55,12 +56,12 @@ public class NewsReportServlet extends HttpServlet {
             "今日も平和ですね。",
             "言いたい事も言えないこんな世の中じゃ POISON～♪"}) );
     sb.append( (isMorning?Utils.random(new String[]{
-            "今日も気をつけていってらっしゃい！",
+            "それでは気をつけていってらっしゃい！",
             "忘れ物はないですか？いってらっしゃい！",
             "それでは今日も一日お元気で！ごきげんよう！",
             "それでは、また夜のニュースで！"})
      :Utils.random(new String[]{
-             "本日も「もふもふ商店」の提供でお送りしました。さようなら！",
+             "今夜も「もふもふ商店」の提供でお送りしました。さようなら！",
              "それでは、今夜も"+bot.getBotName()+"がお届けしました！",
              "それでは、また朝のニュースで！"})) );
     sb.append( "」" );
@@ -110,6 +111,7 @@ public class NewsReportServlet extends HttpServlet {
   
   public static void main(String[] args) {
     //http://weather.livedoor.com/forecast/rss/index.xml
+//    System.out.println();
     Robot bot = Robot.MEKA_ZATSUDAN_TEST;
     String msg = generateMessage(bot);
     System.out.println(msg);

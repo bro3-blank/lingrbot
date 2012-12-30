@@ -47,7 +47,7 @@ public enum Robot {
   public String reply( String t, String user ) {
     t = t.replaceAll("　", " ");
     user = user.replaceAll("^\\(\\(\\(\\s*","").replaceAll("[(（].+?[)）].*","").replaceAll("[@＠].*", "").replaceAll("。", "");
-    String userSama = UserMapper.getName(user);
+    String userSama = UserMapper.getName(user, botName);
     double r = Math.random();
     //sort
     for ( AbstractReplyGenerator rg : replyGenerators ) {
