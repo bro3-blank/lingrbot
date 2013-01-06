@@ -1,6 +1,5 @@
 package m17.putei.lingrbot.bot_impl;
 
-import static m17.putei.lingrbot.Utils.random;
 
 public class MekaZatudan {
   
@@ -17,7 +16,7 @@ public class MekaZatudan {
     
     @Override
     public double getThreshold() {
-      return 0.99d;
+      return 0.09d;
     }
   }
 }

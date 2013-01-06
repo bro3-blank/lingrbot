@@ -16,14 +16,16 @@ public class Links {
     init();
   }
   
-  public void init() {
-    links = loadFromSheet();
+  public synchronized void init() {
+    Map<String,String> newLinks = loadFromSheet();
+    if (links!=null) links = newLinks;
   }
   
   private synchronized Map<String,String> loadFromSheet() {
 //    links = Utils.readKeyValue("links.txt");
     links = new LinkedHashMap<String,String>();
     String content = NetworkAPI.getContentFromURL(gasURL);
+    if (content==null) return null;
     String[] lines = content.split("\t");
     for ( String line : lines ) {
       String[] items = line.split(",");

@@ -37,9 +37,11 @@ public class NewsReportServlet extends HttpServlet {
   }
   
   private static String generateMessage(Robot bot) {
-    int hour = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).get(Calendar.HOUR_OF_DAY);
+    Calendar today = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+    int hour = today.get(Calendar.HOUR_OF_DAY);
     boolean isMorning = hour<11;
-    boolean isMondayMorning = isMorning && Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).get(Calendar.DAY_OF_WEEK)==2;
+    boolean isMondayMorning = isMorning && today.get(Calendar.DAY_OF_WEEK)==2;
+    boolean isFirstDayOfMonth = isMorning && today.get(Calendar.DAY_OF_MONTH)==1;
     StringBuilder sb = new StringBuilder();
     String greeting = isMorning ? "おはようございます、":"こんばんは、";
     sb.append( "( ´⊿`)y-~~　「"+greeting+bot.getBotName()+"が"+hour+"時のニュースをお伝えします。"+(isMorning?"まずはお天気から。":"")+"」\n" );
@@ -47,14 +49,18 @@ public class NewsReportServlet extends HttpServlet {
     sb.append( isMorning?"( ´⊿`)y-~~　「つづいてニュースです。」\n":"" );
     sb.append( NewsReportServlet.getNews(urlGeneralNews, false) );
     sb.append( "( ´⊿`)y-~~　「" );
-    sb.append( isMondayMorning?"月曜になったので、デュエルセットをお忘れなく。":Utils.random(new String[]{
+    sb.append( Utils.random(new String[]{
             "世知辛い世の中ですね。",
-            "凄惨な事件が続きますね。",
-            "一足お先に、ほのぼのとした春の話題をお届けしました。",
-            "年末らしい話題でしたね。",
+            "考えさせられる事件が続きますね。",
+            "凄惨な事件…嫌になりますね。",
+            "新年らしい話題でしたね。",
+            "新年らしい話題でしたね。",
             "たいして目新しい話題はなかったですね。",
             "今日も平和ですね。",
-            "言いたい事も言えないこんな世の中じゃ POISON～♪"}) );
+            "言いたい事も言えないこんな世の中じゃ POISON～♪"
+            }) );
+    sb.append( isMondayMorning ? "月曜になったので、デュエルセットをお忘れなく。" : "" );
+    sb.append( isFirstDayOfMonth ? "1日になったので、割引Gコイン買えますよ。" : "" );
     sb.append( (isMorning?Utils.random(new String[]{
             "それでは気をつけていってらっしゃい！",
             "忘れ物はないですか？いってらっしゃい！",

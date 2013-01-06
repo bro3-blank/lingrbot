@@ -25,9 +25,10 @@ public class MekaZatsudan100 extends AbstractCommon100 {
   protected String processBotSpecificCommand(String arg, String t, 
           String userSama, String user, String roomId) {
     if (arg.matches(".*(命令|めいれい).*")) {
-      return "( ´⊿`)y-~~　 盟主ぶうすけからみなさんが今がすべき司令を預かってるよん。\n"+
-             "「今後は、上級研究。寄付。殲滅。寄付。に注力してください。12/31の寄付額は79万。」\n"+
+      return "( ´⊿`)y-~~　 盟主ぶうすけからみなさんが今すべき司令を預かってるよん。\n"+
+             "「今後は、上級研究。寄付。殲滅。寄付。に注力してください。1/6の寄付額は86万。」\n"+
              "「NPCですが、合流する支部の皆さんに最速で拠点枠を！ってことで、攻略ペース落とします」\n"+
+             "「シートの開きっぱなしは重くなるのでダメ。誤入力はCtrl+zでアンドゥー♪デッキ課金切れに注意。」\n"+
              "「車の生産は、個人の目途でストップしてもらっておｋです！ソロ攻略はおしまいです。」\n"+
              "「もうすぐ始まるチーム攻略に参加するには君主登録シートから登録してください。」\n"+
              "「1人最低1名声使ってNPC包囲にご協力を。シート: http://goo.gl/vlYPI 」\n"+
