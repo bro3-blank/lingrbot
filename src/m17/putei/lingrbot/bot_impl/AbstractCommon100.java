@@ -20,7 +20,7 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
       Matcher mZahyo = pZahyo.matcher(t);
       String s = null;
       while (mZahyo.find()) {
-        s = s != null ? "" : "っ http://m17.3gokushi.jp/big_map.php?x=" + mZahyo.group(1) + "&y="
+        s = s != null ? "" : "っ http://m17.3gokushi.jp/map.php?x=" + mZahyo.group(1) + "&y="
                 + mZahyo.group(2);
       }
       if (s != null && s.length() > 0) return s;

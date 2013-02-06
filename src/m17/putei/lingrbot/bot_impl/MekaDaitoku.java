@@ -135,13 +135,13 @@ public class MekaDaitoku {
     private Osaka osaka = new Osaka();
     @Override
     public String reply(String t, String user, String userSama, String roomId) {
-      if (user.equals("みぃこ")) { 
-        String tOsaka = osaka.toOsaka(t,4);
+      if (user.equals("みぃこ") && t.indexOf("\n")==-1) { 
+        String tOsaka = osaka.toOsaka(t,3);
         if (tOsaka.length()>0) {
           return bot()+random(new String[]{"、大阪弁勉強してんねんけど、今の大阪弁でいうとこうかな？",
                   "に大阪弁おしえてよ、"+userSama+"(*´д｀*) 今のはこれでいい？",
                   "の大阪弁きいてきいてー",
-                  "はホンマは大阪弁ようけしゃべれるよ。今の大阪弁だとこうでしょ？",
+                  "はホンマ大阪弁ようけしゃべれるよ。今のだとこうでしょ？",
                   })
                   +"\n「"+tOsaka+"」";
         }
