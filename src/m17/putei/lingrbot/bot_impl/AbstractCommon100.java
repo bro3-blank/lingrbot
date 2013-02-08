@@ -1,6 +1,9 @@
 package m17.putei.lingrbot.bot_impl;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +16,20 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
  
   private final static Pattern pCommand = Pattern.compile("[「｢](.+?)[」｣](.*)");
 
+  private static Map<String,String> playerDB;
+  
+  static {
+    List<String> lines = Utils.readLines( "alliance-player-list.txt" );
+    playerDB = new HashMap<String,String>(lines.size() * 4 / 3 + 1);
+    for ( String line : lines ) {
+      String[] items = line.split("\t");
+      if (items.length==5) {
+        playerDB.put(items[1], "君主名="+items[1]+", 同盟="+items[0]+", 本拠地=("+items[3]+","+items[4]+")\n" +
+            "http://m17.3gokushi.jp/map.php?x=" + items[3] + "&y="+ items[4]);
+      }
+    }
+  }
+  
   @Override
   public final String reply( String t, String user, String userSama, String roomId ) {
     {
@@ -70,7 +87,8 @@ public abstract class AbstractCommon100 extends AbstractReplyGenerator {
       if (ret.startsWith("君主")) {
         if (ret.contains("見つかりません")) {
 //          return userSama+"、"+ret+"\n（"+bot()+"のわかる命令一覧を見るには、「こまんど」って入れてね♪）";
-          return "";
+          String data = playerDB.get(arg);
+          return data!=null ? (userSama+"、私の記憶が確かなら・・・"+data) : "";
         } else {
           return userSama+"、"+ret;
         }
